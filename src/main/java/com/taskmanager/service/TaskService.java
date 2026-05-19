@@ -150,4 +150,30 @@ public class TaskService {
 
         return metrics;
     }
+
+    // GET TASKS BY PROJECT
+    public List<Task> getTasksByProject(Long projectId) {
+        log.info("Fetching tasks for project ID: {}", projectId);
+        return taskRepository.findByProjectId(projectId);
+    }
+
+    // GET TASKS BY USER
+    public List<Task> getTasksByUser(Long userId) {
+        log.info("Fetching tasks for user ID: {}", userId);
+        return taskRepository.findByAssignedUserId(userId);
+    }
+
+    // PROJECT PROGRESS CALCULATION
+    public double getProjectProgress(Long projectId) {
+
+        List<Task> tasks = taskRepository.findByProjectId(projectId);
+        if (tasks.isEmpty()) {
+            return 0.0;
+        }
+        long completedTasks = tasks.stream()
+                .filter(task -> task.getStatus() == TaskStatus.DONE)
+                .count();
+
+        return (double) completedTasks / tasks.size() * 100;
+    }
 }

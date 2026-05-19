@@ -70,4 +70,22 @@ public class TaskController {
     public ResponseEntity<Map<String, Object>> getDashboard() {
         return ResponseEntity.ok(taskService.getDashboardMetrics());
     }
+
+    // GET TASKS BY PROJECT API
+    @GetMapping("/project/{projectId}")
+    public ResponseEntity<List<Task>> getTasksByProject(@PathVariable Long projectId) {
+        return ResponseEntity.ok(taskService.getTasksByProject(projectId));
+    }
+
+    // GET TASKS BY USER API
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<List<Task>> getTasksByUser(@PathVariable Long userId) {
+        return ResponseEntity.ok(taskService.getTasksByUser(userId));
+    }
+
+    // PROJECT PROGRESS API
+    @GetMapping("/project/{projectId}/progress")
+    public ResponseEntity<Double> getProjectProgress(@PathVariable Long projectId) {
+        return ResponseEntity.ok(taskService.getProjectProgress(projectId));
+    }
 }
